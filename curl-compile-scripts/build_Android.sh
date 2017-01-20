@@ -1,5 +1,5 @@
 #!/bin/bash
-TARGET=android-9
+TARGET=android-19
 
 real_path() {
   [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
@@ -18,6 +18,7 @@ REL_SCRIPT_PATH="$(dirname $0)"
 SCRIPTPATH=$(real_path $REL_SCRIPT_PATH)
 CURLPATH="$SCRIPTPATH/../curl"
 SSLPATH="$SCRIPTPATH/../openssl"
+ZLIBPATH="$SCRIPTPATH/../zlib"
 
 if [ -z "$NDK_ROOT" ]; then
   echo "Please set your NDK_ROOT environment variable first"
@@ -79,6 +80,7 @@ export LIBS="-lssl -lcrypto"
 export LDFLAGS="-L$SCRIPTPATH/obj/local/armeabi"
 ./configure --host=arm-linux-androideabi --target=arm-linux-androideabi \
             --with-ssl=$SSLPATH \
+            --with-zlib=$ZLIBPATH \
             --enable-static \
             --disable-shared \
             --disable-verbose \
@@ -113,8 +115,9 @@ if [ $EXITCODE -ne 0 ]; then
 fi
 
 #Strip debug symbols and copy to the prebuilt folder
-PLATFORMS=(arm64-v8a x86_64 mips64 armeabi armeabi-v7a x86 mips)
-DESTDIR=$SCRIPTPATH/../prebuilt-with-ssl/android
+#PLATFORMS=(arm64-v8a x86_64 mips64 armeabi armeabi-v7a x86 mips)
+PLATFORMS=(armeabi armeabi-v7a)
+DESTDIR=$SCRIPTPATH/../prebuilt-with-ssl_todd/android
 
 for p in ${PLATFORMS[*]}; do
   mkdir -p $DESTDIR/$p

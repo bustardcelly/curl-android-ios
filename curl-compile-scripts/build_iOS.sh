@@ -33,7 +33,7 @@ fi
 
 
 export CC="$XCODE/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
-DESTDIR="$SCRIPTPATH/../prebuilt-with-ssl/iOS"
+DESTDIR="$SCRIPTPATH/../prebuilt-with-ssl_todd/iOS"
 
 export IPHONEOS_DEPLOYMENT_TARGET="7"
 ARCHS=(armv7 armv7s arm64 i386 x86_64)
